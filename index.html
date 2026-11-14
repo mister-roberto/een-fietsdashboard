@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fietsdashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Fietsdashboard</h1>
+      <p class="sub">Je ritten per maand: afstand, aantal, hoogtemeters en tijd.</p>
+    </div>
+    <div class="actions">
+      <label class="button primary">
+        Ritten inlezen
+        <input id="file" type="file" accept=".csv,.gpx" multiple class="visually-hidden">
+      </label>
+      <button id="clear" class="button" type="button" hidden>Wissen</button>
+    </div>
+  </header>
+
+  <p id="status" class="status" role="status"></p>
+
+  <main>
+    <section id="empty" class="empty" hidden>
+      <h2>Nog geen ritten</h2>
+      <p>Lees je ritten in om de grafieken te zien. Dat kan op twee manieren:</p>
+      <ul>
+        <li><strong>Strava-export</strong> – vraag bij Strava je gegevens op (Instellingen → Mijn account → Je account downloaden) en kies het bestand <code>activities.csv</code> uit de zip.</li>
+        <li><strong>GPX-bestanden</strong> – van je fietscomputer of een andere app; je kunt er meerdere tegelijk kiezen.</li>
+      </ul>
+      <p>Een eigen CSV met kolommen als <code>datum</code>, <code>afstand</code> (km), <code>tijd</code> en <code>hoogtemeters</code> werkt ook. Slepen naar dit venster mag ook.</p>
+      <p>Je ritten blijven in deze browser; er wordt niets verstuurd.</p>
+      <button id="demo" class="button" type="button">Bekijk met voorbeeldritten</button>
+    </section>
+
+    <div id="dashboard" hidden>
+      <p id="demo-note" class="note" hidden>Dit zijn voorbeeldritten. Lees je eigen ritten in om ze te vervangen.</p>
+
+      <div class="filters">
+        <label>Jaar
+          <select id="year"></select>
+        </label>
+        <label id="compare-label" class="check">
+          <input id="compare" type="checkbox"> Vergelijk met het jaar ervoor
+        </label>
+        <div id="legend" class="legend" hidden>
+          <span><i class="swatch" style="background: var(--series-1)"></i><span id="legend-current"></span></span>
+          <span><i class="swatch" style="background: var(--series-2)"></i><span id="legend-previous"></span></span>
+        </div>
+      </div>
+
+      <div id="tiles" class="tiles"></div>
+
+      <div id="charts" class="grid"></div>
+
+      <section class="card">
+        <h3>Opgetelde afstand <span class="unit">km door het jaar</span></h3>
+        <div id="cumulative" class="plot"></div>
+      </section>
+
+      <section class="card">
+        <h3 id="table-title">Maandoverzicht</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Maand</th><th class="num">Ritten</th><th class="num">Afstand (km)</th><th class="num">Hoogte (m)</th><th class="num">Tijd</th><th class="num">Gem. km/u</th></tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
